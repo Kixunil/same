@@ -1,0 +1,16 @@
+[package]
+name = "same"
+version = "0.1.0"
+authors = ["Martin Habovstiak <martin.habovstiak@gmail.com>"]
+description = "Traits for testing identity of objects."
+readme = "README.md"
+homepage = "https://github.com/Kixunil/same"
+repository = "https://github.com/Kixunil/same"
+keywords = ["identity", "comparison", "equality", "references"]
+categories = ["algorithms", "no-std", "rust-patterns"]
+maintenance = "passively-maintained"
+license = "MITNFA"
+
+[features]
+default = ["std"]
+std = []
