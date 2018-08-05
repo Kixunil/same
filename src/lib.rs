@@ -73,10 +73,13 @@ where
 #[cfg(feature = "std")]
 impl<T> Same for std::boxed::Box<T>
 where
-    T: ?Sized + Same,
+    T: ?Sized,
 {
     fn same(&self, other: &Self) -> bool {
-        (**self).same(&**other)
+        let a: *const T = &**self;
+        let b: *const T = &**other;
+
+        a == b
     }
 }
 
