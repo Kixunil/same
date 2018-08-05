@@ -6,7 +6,7 @@ A crate for comparing references in generic way.
 About
 -----
 
-This crate provides mainly the trait `Some` which can be used on *shared*
+This crate provides mainly the trait `Same` which can be used on *shared*
 reference types. (`&T`, `Rc`, `Arc`). It enables the users to test identity
 of objects. It's analogous to `PartialEq`, which tests *equality* instead.
 
