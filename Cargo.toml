@@ -8,9 +8,11 @@ homepage = "https://github.com/Kixunil/same"
 repository = "https://github.com/Kixunil/same"
 keywords = ["identity", "comparison", "equality", "references"]
 categories = ["algorithms", "no-std", "rust-patterns"]
-maintenance = "passively-maintained"
 license = "MITNFA"
 
 [features]
 default = ["std"]
 std = []
+
+[badges]
+maintenance = { status = "passively-maintained" }
