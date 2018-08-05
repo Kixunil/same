@@ -168,6 +168,8 @@ where
 pub struct RefCmp<T: Same + ?Sized>(pub T);
 
 impl<T: Same + ?Sized> RefCmp<T> {
+    /// Creates a reference to `RefCmp<T>` from a reference to `T` without
+    /// copying.
     pub fn from_ref(inner: &T) -> &Self {
         // this is safe thanks to #[repr(transparent)]
         unsafe { &*(inner as *const _ as *const Self) }
