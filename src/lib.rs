@@ -67,6 +67,15 @@ impl<'a, T> Same for &'a T {
     }
 }
 
+impl<'a, T> Same for core::cell::Ref<'a, T> {
+    fn same(&self, other: &Self) -> bool {
+        let a: *const T = &**self;
+        let b: *const T = &**other;
+
+        a == b
+    }
+}
+
 #[cfg(feature = "std")]
 impl<T> Same for std::rc::Rc<T> {
     fn same(&self, other: &Self) -> bool {
@@ -84,6 +93,14 @@ impl<T> Same for std::sync::Arc<T> {
 impl<'a, T> RefHash for &'a T {
     fn ref_hash<H: Hasher>(&self, hasher: &mut H) {
         let ptr: *const T = *self;
+
+        ptr.hash(hasher);
+    }
+}
+
+impl<'a, T> RefHash for core::cell::Ref<'a, T> {
+    fn ref_hash<H: Hasher>(&self, hasher: &mut H) {
+        let ptr: *const T = &**self;
 
         ptr.hash(hasher);
     }
@@ -175,6 +192,24 @@ mod tests {
         let a_ref = &a;
         let a_ref_again = &a;
         let b_ref = &b;
+
+        assert!(a_ref.same(&a_ref_again));
+        assert!(!a_ref.same(&b_ref));
+
+        let mut hash_set = ::std::collections::HashSet::new();
+        assert!(hash_set.insert(RefCmp(a_ref)));
+        assert!(!hash_set.insert(RefCmp(a_ref_again)));
+        assert!(hash_set.insert(RefCmp(b_ref)));
+    }
+
+    #[test]
+    fn cell_refs() {
+        let a = ::core::cell::RefCell::new(42);
+        let b = ::core::cell::RefCell::new(42);
+
+        let a_ref = a.borrow();
+        let a_ref_again = a.borrow();
+        let b_ref = b.borrow();
 
         assert!(a_ref.same(&a_ref_again));
         assert!(!a_ref.same(&b_ref));
